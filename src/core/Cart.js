@@ -6,10 +6,11 @@ import { loadCart } from "./helper/carthelper";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     setProducts(loadCart());
-  }, []);
+  }, [reload]);
 
   const loadAllProducts = () => {
     return (
@@ -21,6 +22,8 @@ export default function Cart() {
             product={product}
             addToCart={false}
             removeFromCart={true}
+            setReload={setReload}
+            reload={reload}
           />
         ))}
       </div>
