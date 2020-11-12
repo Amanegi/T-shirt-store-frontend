@@ -3,6 +3,7 @@ import Card from "./Card";
 import "../styles.css";
 import Base from "./Base";
 import { loadCart } from "./helper/carthelper";
+import StripeCheckout from "./StripeCheckout";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
@@ -32,9 +33,11 @@ export default function Cart() {
 
   const loadCheckout = () => {
     return (
-      <div>
-        <h2>cheackout</h2>
-      </div>
+      <StripeCheckout
+        products={products}
+        setReload={setReload}
+        reload={reload}
+      />
     );
   };
 
