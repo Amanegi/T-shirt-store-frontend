@@ -3,7 +3,8 @@ import Card from "./Card";
 import "../styles.css";
 import Base from "./Base";
 import { loadCart } from "./helper/carthelper";
-import StripeCheckout from "./StripeCheckout";
+import StripeCheckout from "../payment/StripeCheckout";
+import BraintreeCheckout from "../payment/BraintreeCheckout";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,7 @@ export default function Cart() {
     setProducts(loadCart());
   }, [reload]);
 
-  const loadAllProducts = () => {
+  const loadAllProducts = (products) => {
     return (
       <div>
         <h2>load products</h2>
@@ -33,18 +34,31 @@ export default function Cart() {
 
   const loadCheckout = () => {
     return (
-      <StripeCheckout
-        products={products}
-        setReload={setReload}
-        reload={reload}
-      />
+      <div>
+        <StripeCheckout
+          products={products}
+          setReload={setReload}
+          reload={reload}
+        />
+        <BraintreeCheckout
+          products={products}
+          setReload={setReload}
+          reload={reload}
+        />
+      </div>
     );
   };
 
   return (
     <Base title="Cart Page" description="Ready to checkout">
       <div className="row text-center">
-        <div className="col-6">{loadAllProducts()}</div>
+        <div className="col-6">
+          {products.length > 0 ? (
+            loadAllProducts(products)
+          ) : (
+            <h3>No products in cart</h3>
+          )}
+        </div>
         <div className="col-6">{loadCheckout()}</div>
       </div>
     </Base>

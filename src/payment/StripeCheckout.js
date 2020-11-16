@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
-import { clearTheCart, loadCart } from "./helper/carthelper";
+import { clearTheCart, loadCart } from "../core/helper/carthelper";
 import StripeCheckoutButton from "react-stripe-checkout";
 import { API } from "../backend";
-import { createOrder } from "./helper/orderhelper";
+import { createOrder } from "../core/helper/orderhelper";
 
 export default function StripeCheckout({
   products,
@@ -19,9 +19,9 @@ export default function StripeCheckout({
     address: "",
   });
 
-  // extracting token and userId
+  // save only if available
   const token = isAuthenticated() && isAuthenticated().token;
-  const userId = isAuthenticated() && isAuthenticated().userId;
+  const userId = isAuthenticated() && isAuthenticated().user._Id;
 
   const getTotalPrice = () => {
     let amount = 0;
@@ -63,7 +63,7 @@ export default function StripeCheckout({
         shippingAddress
         billingAddress
       >
-        <button className="btn btn-success">Pay with Stripe</button>
+        <button className="btn btn-block btn-success">Pay with Stripe</button>
       </StripeCheckoutButton>
     ) : (
       <Link to="/signin">
